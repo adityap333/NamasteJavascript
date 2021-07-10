@@ -56,7 +56,7 @@ function a()
         }
         c();
 }    
-var b = 10;
+var b = 120;
 a();
 
 //output 10

@@ -1,0 +1,105 @@
+1. Javascript is synchronous single threaded Language
+    (Chrome uses V8 engine to execute javascript)
+2. Exceution Context
+        Everything happens in Exceution Context
+        1st component is Memory component(Variable Environment) having key value pair
+        2nd component is Code component(Thread of execution) where code is executed
+
+var n=3
+function square (num){
+    var ans = num * num;
+    return ans;
+}
+var square2 = square(n);
+var square4 = square(4);
+
+3. How above progrmam Works:
+    1. Globle Execution context created.
+    2. Created in 2 phases
+        1. Memory Creation Phase:
+            1.Allocate memeory to all variables and functions line by line
+            2.Here values initially values will be 
+                n: undefined, 
+                square : {whole function saved},
+                square2 : undefined,
+                square4 : undefined
+        2. Code Execution Phase
+            1. from line 1 2 value is stored in n in memory
+            2. on line no 6 on invovation of function new execution context is created.
+            3. again this local Execution context will go through two phases.
+            4. Memory allocations in local EC
+                num:undefined(phase 1) 2(phase 2)
+                ans:undefined(phase 1) 4(phase 2)
+            5. On executiion of return control goes back to, from where method is called.
+            6. Local Execution context is deleted.
+    3. Call stack:
+        1. Its stack maintaining order of execution of Execution Context
+        2. Global EC is at vary bottom of stack.
+        2. Whenever EC is created is put into stack.
+        3. On successfull execution of function its EC is popped from stack
+            and control goes back to previous EC.
+        4. Finallly Global EC is popped and progrem ends ececution
+        5. Call stack also known as program,control,Call, Runtime,Machine Stack.
+4. Hoisting in Javascript:
+    Access varibles and function b4 initializing. This is possible because of 2 phases.
+5. Window
+    1. Window is object created alogn with Global Execution Context.
+    2. Also called Global object. generally window is named in browsers while in node its named differemtly.
+6. This
+    1. points to (global) object of current execution context.
+
+function a()
+{
+        function c()
+        {
+            console.log(b);
+        }
+        c();
+}    
+var b = 10;
+a();
+
+//output 10
+7.Lexical Environment:(Lexical means in hiarchy)
+    1. Whenever Execution context is created lexical envorinment also created.
+    2. when a particular function is invoking it has access to variables of its parent
+        execution context via lexical envorinment of parent present in memory component
+        of current Execution component.
+    3. Outer lexical env is null while as it goes levels deep every EC hold reference 
+        to previous lexical environment.
+    
+
+8. Scope Chaining
+    1. Scope is finding reference of varible in lexical envorinment in all  parent ECs.
+
+10.  All about Let & const
+    1. Let can be accessed only after initializing while var can be accessed before
+        initializing.
+    2. Example:
+                let a = 10;
+                console.log(a);     //output 10 no error
+                var b = 100;
+
+                var b = 100;
+                console.log(a);     // error :cannot access 'b' before initialization
+                let a = 10;
+    3. var is allocated in global object but let and const are stored in separeate 
+        script memeory space.
+    4. Temporal dead zone is time between let was hoisted(declared) and till it is initalized.
+    5. From above window.a (global object) will be undefined but window.b will be 100.
+    6. Duplicate initialization of let & var is not allowed showing syntex error.
+        Example: 
+                let b = 10
+                var b = 20 // SyntexError: Identifier 'b' has already been declared
+
+                var c = 33
+                var c = 65 // o error output :65
+    7. Const must be declared and initalized together.                
+11. Syntex Error vs TypeError vs Reference Error
+    1.  Type error:
+            const variable thores this when const is retried to assign value.
+    2. Syntex Error:
+            If const is not initialized and only deaclared.
+    3.  Reference Error:
+            When let variable is tried to access before initialization.
+    Note: Prefer using const if no changes done . Use let instead of var.

@@ -1,5 +1,6 @@
 1. Javascript is synchronous single threaded Language
     (Chrome uses V8 engine to execute javascript)
+    Sources to learn : JS by kyle simpson
 2. Exceution Context
         Everything happens in Exceution Context
         1st component is Memory component(Variable Environment) having key value pair
@@ -103,3 +104,84 @@ a();
     3.  Reference Error:
             When let variable is tried to access before initialization.
     Note: Prefer using const if no changes done . Use let instead of var.
+12. Block:
+    1. Defined by {} & also known as compound statement
+    2. Block combines multiple JS statements in group
+    3. JS statements are grouped where JS expectes 1 statement in place of multiple
+    4. Example : In JS if() expectes single statement in front of it. so we block statement.
+    5. Block Scope:
+        {
+            var a = 10;
+            let b = 20;
+            cost c = 30;
+        }
+        1. Here let & const are stored in separate block object scope
+        but var is accessible outside block.
+13. Shadowing:
+    1. If same named varialbe(var) is inside and outside of block then value inside block
+        will print value from block asa well as outside as well.
+        var a = 100;
+        {
+            var a =10;
+            console.log(a); // 10 is printed
+        }
+        console.log(a);     // 10 is printed
+    2. But in case of let & const this is not the case.
+        let b = 40;
+        {
+            let b = 200;
+            console.log(b); // 200 is printed
+        }
+        console.log(b);     // 40 is printed
+       Here b outside of block is stored in script object while b inside block is stored
+       stored in block object scope. hence console shows different values.
+    3. Same is case for functions.
+    4. Illegal Shadowing:
+        ---------------------Ex 1 -------------------
+        let a = 20;
+        {
+            var a = 22; //SyntaxError : Identifier 'a' has already been declared.
+        }
+        ---------------------Ex 2 -------------------
+        var b = 20;
+        {
+            let b = 22; //no error
+        }
+        ---------------------Ex 3 -------------------
+        const c = 20;
+        {
+            const c = 100
+            {
+                const c = 200;
+                console.log(c); // 200 is printed
+                // Incase we didnt had c =200 here above statement would print 100.
+            }
+            console.log(c); // 100 is printed
+        }
+        console.log(c); // 20 is printed
+14. Closures in Javascript:( refere ClosuresInJS.jpeg)
+    1. Is function bundled(enclosed) together with its lexical scope
+    (references to its surrounding state) forms a closure.
+
+    function x(){
+        var a = 7;
+        function y(){
+            console.log(a);
+        }
+        retunr y;
+    }
+    var z = x();
+    console.log(z)      // here z will contain or print function y(){console.log(a);}
+    //.....consider 100 lines of c ode
+    z(); // output will be 7.
+
+    2. Above program shows best example of Closure. Here even if a is out of scope output is 7.
+        which means z holds/remembers closure including lexical scope variables.
+    3. Uses of closures:
+        1. Module design pattern,
+        2.  Currying        
+        3. Function like once(fun running once)
+        4. Memorize
+        5. Mintaining state in async world
+        6. setTimeouts
+        7. Iterators  

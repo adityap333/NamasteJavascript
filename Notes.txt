@@ -184,4 +184,43 @@ a();
         4. Memorize
         5. Mintaining state in async world
         6. setTimeouts
-        7. Iterators  
+        7. Iterators
+
+15. Functions in javascript:
+    1. Function Statement aka Function Declaration:
+        function a(){
+            console.log("a called");
+        }
+        a(); //Called like this
+
+    2. Function Expression:
+        // if b() called here it will throw error as b is defined after this line
+        var b = function(){
+            console.log("b called");
+        }
+        b(); //Called like this
+
+    3. Anonymous Function:
+        Are used when functions are used as values.
+        function(){
+
+        }
+    
+    4. Named Function Expression: 
+        var b = function xyz(){
+            console.log("b called");
+        }
+        xyz(); //will throw error
+
+    5. Parameters Vs Arguments:
+         var b = function(param1, param2){
+            console.log("b called" + param1);
+        }
+        b(1, 2) // 1 & 2 are arguments.
+
+    6. First Class Functions:
+        Function used as argument to pass another function is called function class argument.
+        b(function(){
+        });
+
+    7. Collback Functions

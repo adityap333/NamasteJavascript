@@ -28,8 +28,10 @@ class _HomePageState extends State<HomePage> {
     _refreshData(); // Loading the data when the app starts
   }
 
-  final TextEditingController _titleController = TextEditingController();
-  final TextEditingController _descriptionController = TextEditingController();
+  final TextEditingController _userNameController = TextEditingController();
+  final TextEditingController _postalAddressController =
+      TextEditingController();
+  final TextEditingController _phoneNumberController = TextEditingController();
 
   // This function will be triggered when the floating button is pressed
   // It will also be triggered when you want to update an item
@@ -38,8 +40,9 @@ class _HomePageState extends State<HomePage> {
       // id == null -> create new item
       // id != null -> update an existing item
       final existingData = myData.firstWhere((element) => element['id'] == id);
-      _titleController.text = existingData['title'];
-      _descriptionController.text = existingData['description'];
+      _userNameController.text = existingData['userName'];
+      _postalAddressController.text = existingData['postalAddress'];
+      _phoneNumberController.text = existingData['phoneNumber'];
     }
 
     showModalBottomSheet(
@@ -59,15 +62,23 @@ class _HomePageState extends State<HomePage> {
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   TextField(
-                    controller: _titleController,
-                    decoration: const InputDecoration(hintText: 'Title'),
+                    controller: _userNameController,
+                    decoration: const InputDecoration(hintText: 'User Name'),
                   ),
                   const SizedBox(
                     height: 10,
                   ),
                   TextField(
-                    controller: _descriptionController,
-                    decoration: const InputDecoration(hintText: 'Description'),
+                    controller: _postalAddressController,
+                    decoration:
+                        const InputDecoration(hintText: 'Postal Address'),
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  TextField(
+                    controller: _phoneNumberController,
+                    decoration: const InputDecoration(hintText: 'Phone Number'),
                   ),
                   const SizedBox(
                     height: 20,
@@ -84,8 +95,9 @@ class _HomePageState extends State<HomePage> {
                       }
 
                       // Clear the text fields
-                      _titleController.text = '';
-                      _descriptionController.text = '';
+                      _userNameController.text = '';
+                      _postalAddressController.text = '';
+                      _phoneNumberController.text = '';
 
                       // Close the bottom sheet
                       Navigator.of(context).pop();
@@ -99,15 +111,15 @@ class _HomePageState extends State<HomePage> {
 
 // Insert a new data to the database
   Future<void> addItem() async {
-    await DatabaseHelper.createItem(
-        _titleController.text, _descriptionController.text);
+    await DatabaseHelper.createItem(_userNameController.text,
+        _postalAddressController.text, _phoneNumberController.text);
     _refreshData();
   }
 
   // Update an existing data
   Future<void> updateItem(int id) async {
-    await DatabaseHelper.updateItem(
-        id, _titleController.text, _descriptionController.text);
+    await DatabaseHelper.updateItem(id, _userNameController.text,
+        _postalAddressController.text, _phoneNumberController.text);
     _refreshData();
   }
 
@@ -123,7 +135,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Sqlite CRUD'),
+        title: const Text('User Management'),
       ),
       body: _isLoading
           ? const Center(
@@ -137,8 +149,10 @@ class _HomePageState extends State<HomePage> {
                     color: index % 2 == 0 ? Colors.green : Colors.green[200],
                     margin: const EdgeInsets.all(15),
                     child: ListTile(
-                        title: Text(myData[index]['title']),
-                        subtitle: Text(myData[index]['description']),
+                        title: Text(myData[index]['userName']),
+                        subtitle: Text(myData[index]['postalAddress'] +
+                            ' : ' +
+                            (myData[index]['phoneNumber'])),
                         trailing: SizedBox(
                           width: 100,
                           child: Row(
